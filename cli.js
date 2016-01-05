@@ -2,7 +2,7 @@
 
 'use strict';
 
-const VIRTUE  = require("virtue");
+const VIRTUE  = require("./");
 const OS      = require("os");
 const PACKAGE = require("./package.json");
 const PRO     = process;
@@ -210,7 +210,7 @@ function Message(message,data){
 		
 		case "RESULTS":{
 			
-			report.result = data;
+			report.results = data;
 			
 			if(!(json)){
 				
