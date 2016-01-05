@@ -31,7 +31,7 @@
   },
   "author": "James Allen",
   "license": "MIT",
-  "preferGlobal": "true",
+  "preferGlobal": true,
   "bugs": {
     "url": "https://github.com/metaceo/nodejs.virtue/issues"
   },
