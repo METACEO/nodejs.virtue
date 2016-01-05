@@ -1,0 +1,39 @@
+{
+  "name": "virtue",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "description": "Module for digesting hashes of local and remote resources to provide element integrity.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/metaceo/nodejs.virtue.git"
+  },
+  "keywords": [
+    "virtue",
+    "integrity",
+    "hash",
+    "digest",
+    "file",
+    "resource",
+    "local",
+    "remote",
+    "W3C",
+    "CR-SRI-20151111",
+    "batch"
+  ],
+  "bin": {
+    "virtue": "./cli.js"
+  },
+  "author": "James Allen",
+  "license": "MIT",
+  "preferGlobal": "true",
+  "bugs": {
+    "url": "https://github.com/metaceo/nodejs.virtue/issues"
+  },
+  "homepage": "https://github.com/metaceo/nodejs.virtue#readme"
+}
