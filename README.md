@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/METACEO/nodejs.virtue.svg?branch=master)](https://travis-ci.org/METACEO/nodejs.virtue)
 
+[![Dependencies](https://david-dm.org/metaceo/nodejs.virtue.svg)](https://david-dm.org/metaceo/nodejs.virtue)
+
 *Module for digesting hashes of local and remote resources in order to provide element integrity.*
 
 ```
