@@ -29,7 +29,7 @@
   "bin": {
     "virtue": "./cli.js"
   },
-  "author": "author": {
+  "author": {
     "name": "James Allen",
     "email": "com.npmjs@meta.ceo",
     "url": "https://github.com/metaceo"
