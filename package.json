@@ -1,6 +1,6 @@
 {
   "name": "virtue",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "engines": {
     "node": ">=4.0.0"
   },
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/metaceo/nodejs.virtue.git"
+    "url": "git://github.com/metaceo/nodejs.virtue.git"
   },
   "keywords": [
     "virtue",
@@ -29,9 +29,17 @@
   "bin": {
     "virtue": "./cli.js"
   },
-  "author": "James Allen",
+  "author": "author": {
+    "name": "James Allen",
+    "email": "com.npmjs@meta.ceo",
+    "url": "https://github.com/metaceo"
+  },
+  "contributors": [],
   "license": "MIT",
   "preferGlobal": true,
+  "dependencies": {},
+  "devDependencies": {},
+  "optionalDependencies": {},
   "bugs": {
     "url": "https://github.com/metaceo/nodejs.virtue/issues"
   },
