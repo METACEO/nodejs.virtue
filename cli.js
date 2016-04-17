@@ -282,7 +282,7 @@ function EndWith(
     
     case "INVALID-RESOURCE":{
       
-      message = "An invalid resource was provided => " + data;
+      message = "An invalid resource was provided => " + ((typeof data === "string") ? data : JSON.stringify(data));
       
       break;
       
@@ -290,7 +290,7 @@ function EndWith(
     
     case "INVALID-HASH":{
       
-      message = "An invalid hash was provided => " + data;
+      message = "An invalid hash was provided => " + ((typeof data === "string") ? data : JSON.stringify(data));
       
       if(json) report.hash = data;
       
