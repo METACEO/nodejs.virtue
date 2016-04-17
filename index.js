@@ -20,71 +20,74 @@ function Virtue(
   // resources.
   */
   for(let arg = 0; arg < arguments.length; arg++){
-  
-  let src = arguments[arg];
-  
-  /* Tests for just a resource and if so
-  // then use the `_default` hashes.
-  //   example:
-  //   "resource.js",
-  //   ...
-  */
-  if(ValidString(src)) src = [_default,src];
-  
-  /* Otherwise, test for a correct list,
-  // something that includes either a
-  // single string or an array for hashes
-  // and a string resource, if not
-  // then return an error.
-  //   example:
-  //   ["sha256","resource.js"],
-  //   [["sha256","sha384"],"resource.js"],
-  //   ...
-  */
-  if(
-    (!(Array.isArray(src)))
-    ||
-    (src.length !== 2)
-    ||
-    (typeof src !== "string")
-    &&
-    (!(Array.isArray(src)))
-    ||
-    (!(ValidString(src[1])))
-  ){
     
-    return ErrorArgument(arg);
+    let src = arguments[arg];
+    
+    /* Tests for just a resource and if so
+    // then use the `_default` hashes.
+    //   example:
+    //   "resource.js",
+    //   ...
+    */
+    if(ValidString(src)) src = [_default,src];
+    
+    /* Otherwise, test for a correct list,
+    // something that includes either a
+    // single string or an array for hashes
+    // and a string resource, if not
+    // then return an error.
+    //   example:
+    //   ["sha256","resource.js"],
+    //   [["sha256","sha384"],"resource.js"],
+    //   ...
+    */
+    if(
+      (!(Array.isArray(src)))
+      ||
+      (src.length !== 2)
+      ||
+      (typeof src !== "string")
+      &&
+      (!(Array.isArray(src)))
+      ||
+      (!(ValidString(src[1])))
+    ){
+      
+      return ErrorArgument(arg);
+      
+    }
+    
+    /* Do we have a single string for
+    // a hash?.. if so then turn it
+    // into a one-item array.
+    //   example:
+    //   ["sha256","subresource.js"] to [["sha256"],"subresource.js"]
+    */
+    if(Array.isArray(src[0]) !== true) src[0] = [src[0]];
+    
+    /* We now have an array of hashes...
+    // if our array includes an invalid
+    // hash, then return an error to our
+    // user that'll specify it.
+    */
+    if(src[0].some(InvalidHash)) return ErrorHash(src[0],arg);
+    
+    /* Push the resource lookup towards the
+    // othes and continue to the next. The
+    // arguments are dereferenced and freed
+    // in the beginning of the bound `Lookup`
+    // method with slices and substrings.
+    */
+    srcs.push(new Promise(Lookup.bind(null,src[0],src[1])));
     
   }
   
-  /* Do we have a single string for
-  // a hash?.. if so then turn it
-  // into a one-item array.
-  //   example:
-  //   ["sha256","subresource.js"],
+  /* Return the Promise to the user
+  // and allow them to do what they
+  // want with its results.
   */
-  src[0] = (Array.isArray(src[0])) ? src[0] : [src[0]];
+  return Promise.all(srcs);
   
-  /* We now have an array of hashes...
-  // if our array includes an invalid
-  // hash, then return an error to our
-  // user that'll specify it.
-  */
-  if(src[0].some(InvalidHash)) return ErrorHash(src[0],arg);
-  
-  /* Push the resource lookup towards the
-  // othes and continue to the next.
-  */
-  srcs.push(new Promise(Lookup.bind(null,src[0],src[1])));
-  
-}
-
-/* Return the Promise to the user
-// and allow them to do what they
-// want with its results.
-*/
-return Promise.all(srcs);
-
 }
 
 /* Provide the user the ability to
@@ -104,7 +107,7 @@ Virtue.defaultHashes = function DefaultHashes(
   //   .defaultHashes(["sha256"]);
   //   .defaultHashes(["sha256","sha512"]);
   */
-  hashes = (Array.isArray(hashes)) ? hashes : [hashes];
+  if(Array.isArray(hashes) !== true) hashes = [hashes];
   
   /* If any erroneous hashes were
   // provided, or none were provided
@@ -115,8 +118,10 @@ Virtue.defaultHashes = function DefaultHashes(
   
   /* ...otherwise overwrite the
   // default hashes and return true.
+  // Make sure to dereference the
+  // provided argument (slices.)
   */
-  _default = hashes;
+  _default = hashes.slice(0);
   
   return true;
   
@@ -136,9 +141,9 @@ function Lookup(
   const digests = {};
   let resource;
   
-  /* Copy the arguments, don't
-  // reference the `arguments`
-  // object.
+  /* Dereference and free the
+  // arguments (slices and
+  // substrings.)
   */
   hashes = hashes.slice(0);
   src    = src.substring(0);
@@ -266,7 +271,7 @@ function ErrorArgument(
   // add one to represent the user's
   // actual input.
   */
-  if(typeof arg === "number") info.arg = arg++;
+  if(typeof arg === "number") info.arg = (arg + 1);
   
   return Promise.reject(ReturnError("Invalid resource provided.","INVALID-RESOURCE",info));
   
@@ -288,7 +293,7 @@ function ErrorHash(
   // add one to represent the user's
   // actual input.
   */
-  if(typeof arg === "number") info.arg = arg + 1;
+  if(typeof arg === "number") info.arg = (arg + 1);
   
   /* Find and return the first
   // erroneous hash.
@@ -310,7 +315,7 @@ function ValidString(
   something
 ){
   
-  return typeof something === "string" && something.length > 0;
+  return (typeof something === "string" && something.length > 0);
   
 }
 
@@ -322,7 +327,7 @@ function ValidHash(
   something
 ){
   
-  return ValidString(something) && HASHES.indexOf(something) >= 0;
+  return (ValidString(something) && HASHES.indexOf(something) >= 0);
   
 }
 
@@ -332,7 +337,7 @@ function InvalidHash(
   something
 ){
   
-  return !(ValidHash(something));
+  return (ValidHash(something) !== true);
   
 }
 
